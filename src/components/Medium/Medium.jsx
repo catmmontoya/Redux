@@ -1,10 +1,18 @@
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Card from '../shared/Card/Card.jsx';
 import Loading from '../shared/Loading/Loading.jsx';
+import { useEffect } from 'react';
+import { requestArticles } from '../../reducers/mediumReducer.js';
 
 export default function Medium() {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const loading = useSelector(state => state.medium.loading);
+  const articles = useSelector(state => state.medium.articles);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(requestArticles);
+  }, [])
+  
   const articleCards = articles.map((article) => <Card key={article.id} article={article} />);
 
   return (
